@@ -7,7 +7,6 @@ export const getMessagesThunk = createAsyncThunk(
   `${MESSAGES_SLICE_NAME}/get`,
   async (payload, thunkAPI) => {
     try {
-      console.log('payload :>> ', payload);
       const response = await API.getMessages(payload);
       return response.data.data;
     } catch (err) {

@@ -15,6 +15,19 @@ export const createMessage = newMessage =>
 
 // -------
 const socket = io('ws://localhost:5000');
+// socket.emit('connection')
 
+socket.on('ADD_NEW_MEMBER', payload => {
+  console.log('ADD_NEW_MEMBER');
+  console.log('payload :>> ', payload);
+});
+
+socket.on('NEW_USER_WELLCOME', payload => {
+  console.log('payload :>> ', payload);
+});
+
+socket.on('EVENT_FOR_ALL', payload => {
+  console.log('payload :>> ', payload);
+});
 // socket.on('подія',()=>{})  - прослуховувати події ws сервера
 // socket.emit('подія', payload) - генерувати події, які прослуховує сервер

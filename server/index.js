@@ -18,7 +18,7 @@ const io = new Server(httpServer, { cors });
 io.on('connection', socket => {
   console.log('Connection established');
 
-  socket.on('CREATE_MESSAGE', async message => {
+  const createMessageHandler = async message => {
     // save to db
     try {
       const createdMessage = await Message.create(message);
@@ -27,7 +27,9 @@ io.on('connection', socket => {
     } catch (err) {
       socket.emit('CREATE_MESSAGE_ERROR', err);
     }
-  });
+  };
+
+  socket.on('CREATE_MESSAGE', createMessageHandler);
 
   // -------- THEORY + EXAMPLES ---------------------------------
   socket.broadcast.emit('ADD_NEW_MEMBER', 'A new user connected');

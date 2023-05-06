@@ -8,7 +8,7 @@ import './App.css';
 import { connect } from 'react-redux';
 import { createMessageWs } from './api';
 
-function App ({ messages, isFetching, error, limit, create, get }) {
+function App ({ messages, isFetching, error, limit, get }) {
   useEffect(() => {
     get(limit);
   }, [limit]);
@@ -22,7 +22,6 @@ function App ({ messages, isFetching, error, limit, create, get }) {
   }, [messages.length]);
 
   const addMessage = (values, formikBag) => {
-    // create(values);
     createMessageWs(values);
     formikBag.resetForm();
   };
@@ -55,7 +54,6 @@ const mapStateToProps = ({ chat }) => chat;
 
 const mapDispatchToProps = dispatch => ({
   get: limit => dispatch(getMessagesThunk(limit)),
-  create: values => dispatch(createMessageThunk(values)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

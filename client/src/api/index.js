@@ -5,7 +5,6 @@ import {
   createMessageError,
   createMessageFullfilled,
 } from '../store/slices/messagesSlice';
-import store from './../store';
 
 const axiosOptions = {
   baseURL: 'http://127.0.0.1:5000/api',
@@ -22,15 +21,15 @@ const socket = io('ws://localhost:5000');
 export const createMessageWs = message =>
   socket.emit('CREATE_MESSAGE', message);
 
-socket.on('MESSAGE_CREATED', data => {
-  console.log('data :>> ', data);
-  store.dispatch(createMessageFullfilled(data));
-});
+export const bringStoreToSocket = store => {
+  socket.on('MESSAGE_CREATED', data => {
+    store.dispatch(createMessageFullfilled(data));
+  });
 
-socket.on('CREATE_MESSAGE_ERROR', err => {
-  console.log('ERROR>>', err);
-  store.dispatch(createMessageError(err));
-});
+  socket.on('CREATE_MESSAGE_ERROR', err => {
+    store.dispatch(createMessageError(err));
+  });
+};
 
 // -------- THEORY + EXAMPLES ---------------------------------
 // socket.on('подія',()=>{})  - прослуховувати події ws сервера

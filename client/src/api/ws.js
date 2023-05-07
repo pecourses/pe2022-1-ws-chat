@@ -3,19 +3,23 @@ import {
   createMessageError,
   createMessageFullfilled,
 } from '../store/slices/messagesSlice';
+import CONSTANTS from './../constants';
+
+const { CREATE_MESSAGE, MESSAGE_CREATED, CREATE_MESSAGE_ERROR } =
+  CONSTANTS.SOCKET_EVENTS;
 
 // -------------------------------------------
 const socket = io('ws://localhost:5000');
 // socket.emit('connection')
 
-export const createMessage = message => socket.emit('CREATE_MESSAGE', message);
+export const createMessage = message => socket.emit(CREATE_MESSAGE, message);
 
 export const bringStoreToSocket = store => {
-  socket.on('MESSAGE_CREATED', data => {
+  socket.on(MESSAGE_CREATED, data => {
     store.dispatch(createMessageFullfilled(data));
   });
 
-  socket.on('CREATE_MESSAGE_ERROR', err => {
+  socket.on(CREATE_MESSAGE_ERROR, err => {
     store.dispatch(createMessageError(err));
   });
 };

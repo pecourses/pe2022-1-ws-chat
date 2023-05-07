@@ -2,6 +2,9 @@ const http = require('http');
 const { Server } = require('socket.io');
 const app = require('./app');
 const { Message } = require('./models');
+const {
+  SOCKET_EVENTS: { CREATE_MESSAGE, MESSAGE_CREATED, CREATE_MESSAGE_ERROR },
+} = require('./constants');
 
 const PORT = process.env.PORT ?? 5000;
 
@@ -23,13 +26,13 @@ io.on('connection', socket => {
     try {
       const createdMessage = await Message.create(message);
       // send to users
-      io.emit('MESSAGE_CREATED', createdMessage);
+      io.emit(MESSAGE_CREATED, createdMessage);
     } catch (err) {
-      socket.emit('CREATE_MESSAGE_ERROR', err);
+      socket.emit(CREATE_MESSAGE_ERROR, err);
     }
   };
 
-  socket.on('CREATE_MESSAGE', createMessageHandler);
+  socket.on(CREATE_MESSAGE, createMessageHandler);
 
   // -------- THEORY + EXAMPLES ---------------------------------
   socket.broadcast.emit('ADD_NEW_MEMBER', 'A new user connected');

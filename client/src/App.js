@@ -6,7 +6,7 @@ import {
 } from './store/slices/messagesSlice';
 import './App.css';
 import { connect } from 'react-redux';
-import { createMessageWs } from './api';
+import { ws } from './api';
 
 function App ({ messages, isFetching, error, limit, get }) {
   useEffect(() => {
@@ -22,7 +22,7 @@ function App ({ messages, isFetching, error, limit, get }) {
   }, [messages.length]);
 
   const addMessage = (values, formikBag) => {
-    createMessageWs(values);
+    ws.createMessage(values);
     formikBag.resetForm();
   };
 

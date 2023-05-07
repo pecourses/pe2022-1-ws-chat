@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import * as API from '../../api';
+import { http as API } from '../../api';
 
 const MESSAGES_SLICE_NAME = 'messages';
 
